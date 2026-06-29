@@ -89,3 +89,12 @@ This repository utilizes GitHub Actions (`.github/workflows/tests.yml`).
 *   **Automated Runs:** Triggers on every push and pull request to the `main` branch.
 *   **Interactive Reports:** Results are parsed and displayed directly in the GitHub Actions UI.
 *   **Artifacts:** If tests fail, Playwright traces (which include DOM snapshots, network logs, and screenshots) are zipped and uploaded as artifacts for easy debugging. Download the `.zip` from the workflow summary page and upload the trace to [trace.playwright.dev](https://trace.playwright.dev/).
+
+### Running Specific Tests Manually in GitHub Actions
+You can trigger test runs manually using the `workflow_dispatch` feature directly from the GitHub UI:
+1. Navigate to the **Actions** tab on GitHub.
+2. Click on the **Playwright Tests** workflow on the left sidebar.
+3. Click the **Run workflow ▾** button on the right.
+4. Provide input filters to run specific subsets of tests:
+   *   **Category:** Enter `Smoke` or `Admin` to run entire categories.
+   *   **Specific Test or Class Name:** Enter `AdminUserRoleTests` to run all tests in that class, or `Admin_CanLogin_Successfully` to run a single specific test.
