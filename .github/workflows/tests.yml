@@ -17,6 +17,9 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      statuses: write
+      checks: write
 
     env:
       # Instructs TestSettings.cs to load appsettings.CI.json
@@ -79,6 +82,16 @@ jobs:
             TestResults/**/*.trx
           if-no-files-found: ignore
           retention-days: 7
+
+      # ── Publish Test Results to GitHub UI ───────────────────────────────────
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Playwright Test Results
+          path: "TestResults/**/*.trx"
+          reporter: dotnet-trx
+          fail-on-error: false
 
       # ── Fail the job if tests failed ────────────────────────────────────────
       - name: Check Test Results
