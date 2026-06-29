@@ -12,7 +12,7 @@ on:
         required: false
         default: ''
       test_name:
-        description: Specific Test Name to run (e.g. Admin_CanLogin_Successfully)
+        description: Specific Test or Class Name (e.g. AdminUserRoleTests)
         required: false
         default: ''
 
