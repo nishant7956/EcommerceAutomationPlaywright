@@ -19,10 +19,23 @@ public class ProductsPage : BasePage
     {
     }
 
+    // Default admin credentials (from appsettings / hardcoded demo values)
+    private const string AdminUser = "admin";
+    private const string AdminPass = "nexus2026";
+
     public async Task NavigateAsync()
     {
+        // Navigate to /Products. If redirected to login, authenticate first.
         await Page.GotoAsync($"{Settings.BaseUrl}/Products");
         await WaitForLoadStateAsync();
+
+        if (Page.Url.Contains("/AdminAuth/Login", StringComparison.OrdinalIgnoreCase))
+        {
+            await Page.Locator("#admin-username").FillAsync(AdminUser);
+            await Page.Locator("#admin-password").FillAsync(AdminPass);
+            await Page.Locator("#btn-admin-login").ClickAsync();
+            await WaitForLoadStateAsync();
+        }
     }
 
     public async Task ClickCreateProductAsync()
