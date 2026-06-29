@@ -2,38 +2,36 @@
 
 A modern, robust, fully asynchronous end-to-end automation framework built with **C# 12**, **.NET 8**, and **Playwright**.
 
-This framework is designed to test both the [ECommerce](https://opensource-demo.orangehrmlive.com/) web application UI and the [Restful Booker](https://restful-booker.herokuapp.com/) API. It utilizes the Page Object Model (POM) pattern for UI tests and strongly-typed data models for API tests.
+This framework is designed to test the `EcommerceWebApp` (an ASP.NET Core MVC application with an integrated Web API). It utilizes the Page Object Model (POM) pattern for UI tests and strongly-typed data models for API tests.
 
 ## 🚀 Key Features
 
+*   **Dual-Repository CI/CD Architecture:** Clean separation of concerns. The Web App and Test Framework live in separate repositories, mirroring enterprise industry standards.
 *   **Fully Asynchronous:** Native `async/await` implementation throughout the entire framework to leverage Playwright's maximum speed and efficiency.
 *   **Playwright Native Locators:** Uses resilient `ILocator` and `Page.GetByRole` strategies instead of fragile XPath strings.
-*   **API & UI Unified:** Contains a dedicated HTTP client structure for backend API validation alongside full UI browser automation.
-*   **Environment Configuration:** Strongly-typed configuration powered by `appsettings.json` (with support for `appsettings.Development.json` and `appsettings.CI.json`).
-*   **GitHub Actions CI/CD:** Fully automated pipeline that runs tests on every push, publishes an interactive test report dashboard via `dorny/test-reporter`, and saves Playwright trace artifacts for debugging.
-*   **Parallel Execution Ready:** Built with context isolation. Every test receives a pristine `IBrowserContext`, preventing state bleed between tests.
+*   **Environment Configuration:** Strongly-typed configuration powered by `appsettings.json` (with support for `appsettings.CI.json`).
+*   **Advanced GitHub Actions Integration:** Features automated regression runs on application code pushes, manual on-demand triggers with repetition for flaky test detection, and interactive visual test reports via `dorny/test-reporter`.
 
 ## 📂 Repository Structure
 
-The solution (`ECommerce.Playwright.slnx`) is divided into three core projects:
+The solution (`ECommerce.Playwright.slnx`) is divided into core projects:
 
 *   **`ECommerce.Playwright.Framework`**: The core engine. Contains the Page Object Model (POM) classes, Web UI components, Driver factories, configuration bindings, and test data generators.
-*   **`ECommerce.Playwright.Api`**: The API testing suite. Contains strongly-typed Request/Response models, the `RestfulBookerClient`, and all API integration tests.
-*   **`ECommerce.Playwright.Tests`**: The UI testing suite. Contains NUnit tests grouped by business areas (Admin, Leave, PIM, Recruitment, Smoke).
+*   **`ECommerce.Playwright.Api`**: The API testing suite. Contains strongly-typed Request/Response models and all API integration tests.
+*   **`ECommerce.Playwright.Tests`**: The UI testing suite. Contains NUnit UI tests.
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
 1. Install the [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
-2. Install an IDE like Visual Studio 2022 or VS Code (with the C# Dev Kit extension).
-3. Ensure PowerShell is installed on your system.
+2. Ensure PowerShell is installed on your system.
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/nishant7956/ECommerce.Playwright.git
-   cd ECommerce.Playwright
+   git clone https://github.com/nishant7956/EcommerceAutomationPlaywright.git
+   cd EcommerceAutomationPlaywright
    ```
 
 2. **Restore dependencies and build the solution:**
@@ -56,45 +54,34 @@ dotnet test ECommerce.Playwright.slnx
 ```
 
 **Filter by Category:**
-Tests are categorized using NUnit's `[Category]` attribute (e.g., `Smoke`, `Admin`, `PIM`, `API`).
+Tests are categorized using NUnit's `[Category]` attribute (e.g., `Smoke`, `API`).
 ```bash
 dotnet test --filter Category=Smoke
-dotnet test --filter Category=API
 ```
 
-### From Visual Studio / VS Code
-Open the Test Explorer panel in your IDE, where tests will automatically be discovered. You can run or debug them individually.
-
-## ⚙️ Configuration
-
-Configuration is managed in the `ECommerce.Playwright.Framework/Config/` directory.
-
-*   `appsettings.json`: The default configuration file.
-*   `appsettings.Development.json`: Use this for local execution (e.g., running in `Headless = false` mode).
-*   `appsettings.CI.json`: Used automatically by GitHub Actions to run tests headlessly with maximum performance.
-
-To override settings locally, create or edit `appsettings.Development.json` (this file is `.gitignore`d to prevent accidentally committing local credentials):
-```json
-{
-  "TestSettings": {
-    "Headless": false,
-    "DefaultTimeoutMs": 15000
-  }
-}
+### Dealing with Flaky Tests Locally
+Use the NUnit `[Repeat(X)]` attribute above your test method to run a test multiple times in a row locally to prove stability before pushing:
+```csharp
+[Test]
+[Repeat(10)] 
+public async Task My_Test() { ... }
 ```
 
-## 📊 Continuous Integration (CI/CD)
+## 📊 Dual-Repository CI/CD Strategy
 
-This repository utilizes GitHub Actions (`.github/workflows/tests.yml`). 
-*   **Automated Runs:** Triggers on every push and pull request to the `main` branch.
-*   **Interactive Reports:** Results are parsed and displayed directly in the GitHub Actions UI.
-*   **Artifacts:** If tests fail, Playwright traces (which include DOM snapshots, network logs, and screenshots) are zipped and uploaded as artifacts for easy debugging. Download the `.zip` from the workflow summary page and upload the trace to [trace.playwright.dev](https://trace.playwright.dev/).
+This framework is part of a multi-repository CI/CD setup, providing maximum flexibility for both Developers and QA Engineers.
 
-### Running Specific Tests Manually in GitHub Actions
-You can trigger test runs manually using the `workflow_dispatch` feature directly from the GitHub UI:
-1. Navigate to the **Actions** tab on GitHub.
-2. Click on the **Playwright Tests** workflow on the left sidebar.
-3. Click the **Run workflow ▾** button on the right.
-4. Provide input filters to run specific subsets of tests:
-   *   **Category:** Enter `Smoke` or `Admin` to run entire categories.
-   *   **Specific Test or Class Name:** Enter `AdminUserRoleTests` to run all tests in that class, or `Admin_CanLogin_Successfully` to run a single specific test.
+### 1. Automatic Runs (in the `EcommerceWebApp` Repo)
+Whenever a developer pushes code to the `EcommerceWebApp` repository, the `ci.yml` pipeline runs automatically.
+*   It builds and hosts the web application.
+*   It clones this `EcommerceAutomationPlaywright` repository.
+*   It executes the full regression suite to ensure the developer's changes didn't break anything.
+*   Results are published to the GitHub Actions UI of the Web App repository.
+
+### 2. Manual On-Demand Runs (in this Repo)
+When you add new automation code to this repository, you can verify it works against the application without waiting for a developer to push code.
+*   Navigate to the **Actions** tab in this GitHub repository.
+*   Select **Manual Test Run (On-Demand)** and click **Run workflow**.
+*   **Test Filter:** Provide a filter (e.g., `Name=Can_Create_New_Product`) to run only the test you just wrote, or leave it blank to run all tests.
+*   **Repeat Count:** Type a number (e.g., `10`) to have the GitHub runner execute that test 10 times in a row. This is incredibly useful for verifying that a test is not flaky in the CI environment!
+*   The workflow will dynamically clone the Web App, boot it up, and run your tests exactly as requested, generating a combined visual report of all iterations.
