@@ -58,6 +58,7 @@ public sealed class TestSettings
 
     // ── Tracing / artifact capture ────────────────────────────────────────────
     public TraceMode TraceMode { get; init; } = TraceMode.OnFailure;
+    public bool RecordVideo { get; init; } = false;
     public string ArtifactsDirectory { get; init; } = "TestResults";
 
     // ── API testing ───────────────────────────────────────────────────────────
@@ -132,6 +133,7 @@ public sealed class TestSettings
             RetryCount          = ParseInt(config["RetryCount"], defaultValue: 1),
             ParallelWorkers     = ParseInt(config["ParallelWorkers"], defaultValue: 1),
             TraceMode           = ParseEnum<TraceMode>(config["TraceMode"], defaultValue: TraceMode.OnFailure),
+            RecordVideo         = ParseBool(config["RecordVideo"], defaultValue: true),
             ArtifactsDirectory  = config["ArtifactsDirectory"] ?? "TestResults",
             ApiBaseUrl          = config["ApiBaseUrl"]?.TrimEnd('/') ?? string.Empty,
             RestfulBookerBaseUrl = config["RestfulBookerBaseUrl"]?.TrimEnd('/') ?? "https://restful-booker.herokuapp.com",

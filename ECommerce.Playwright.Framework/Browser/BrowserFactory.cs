@@ -86,6 +86,8 @@ public static class BrowserFactory
             // Locale and timezone — override if your app is locale-sensitive
             Locale   = "en-US",
             TimezoneId = "America/New_York",
+            
+            RecordVideoDir = settings.RecordVideo ? Path.Combine(settings.ArtifactsDirectory, "videos") : null
         };
 
         var context = await _browser!.NewContextAsync(options);

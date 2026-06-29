@@ -93,7 +93,17 @@ public abstract class BaseUiTest
 
         try
         {
-            // 1. Handle tracing
+            // 1. Capture Screenshot on failure
+            if (isFailure && Page != null)
+            {
+                Directory.CreateDirectory(Settings.ArtifactsDirectory);
+                string safeTestName = string.Join("_", TestContext.CurrentContext.Test.Name.Split(Path.GetInvalidFileNameChars()));
+                string screenshotPath = Path.Combine(Settings.ArtifactsDirectory, $"{safeTestName}_fail.png");
+                await Page.ScreenshotAsync(new() { Path = screenshotPath });
+                TestContext.AddTestAttachment(screenshotPath, "Failure Screenshot");
+            }
+
+            // 2. Handle tracing
             if (Settings.TraceMode != TraceMode.Never)
             {
                 bool shouldSaveTrace = Settings.TraceMode == TraceMode.Always || 
@@ -101,37 +111,39 @@ public abstract class BaseUiTest
 
                 if (shouldSaveTrace)
                 {
-                    // Ensure the artifacts directory exists
                     Directory.CreateDirectory(Settings.ArtifactsDirectory);
-                    
-                    // Create a safe filename for the trace zip
                     string safeTestName = string.Join("_", TestContext.CurrentContext.Test.Name.Split(Path.GetInvalidFileNameChars()));
                     string traceFileName = $"{safeTestName}_{DateTime.Now:yyyyMMdd_HHmmss}.zip";
                     string tracePath = Path.Combine(Settings.ArtifactsDirectory, traceFileName);
 
-                    await Context.Tracing.StopAsync(new()
-                    {
-                        Path = tracePath
-                    });
-                    
-                    // Attach the trace file to the NUnit test results
+                    await Context.Tracing.StopAsync(new() { Path = tracePath });
                     TestContext.AddTestAttachment(tracePath, "Playwright Trace");
                     TestContext.Out.WriteLine($"[TRACE] Saved trace to: {tracePath}");
                 }
                 else
                 {
-                    // If we started tracing but don't want to save it, just stop it
                     await Context.Tracing.StopAsync();
                 }
             }
         }
         finally
         {
-            // 2. Always close the context to clean up resources.
-            // This also closes the Page automatically.
+            string? videoPath = null;
+            if (Settings.RecordVideo && Page?.Video != null)
+            {
+                videoPath = await Page.Video.PathAsync();
+            }
+
+            // 3. Always close the context to clean up resources.
             if (Context != null)
             {
                 await Context.CloseAsync();
+            }
+
+            // 4. Attach video if recorded
+            if (videoPath != null && File.Exists(videoPath))
+            {
+                TestContext.AddTestAttachment(videoPath, "Test Video");
             }
         }
     }
