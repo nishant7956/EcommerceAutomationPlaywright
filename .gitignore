@@ -1,0 +1,27 @@
+# Build outputs
+bin/
+obj/
+
+# Test results and Playwright artifacts
+TestResults/
+playwright-traces/
+*.trx
+
+# NuGet restore
+*.user
+.nuget/
+packages/
+
+# Playwright browser binaries (installed per machine via 'playwright install')
+**/ms-playwright/
+
+# IDE files
+.vs/
+.vscode/
+*.suo
+*.user
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="OrangeHRM.Playwright.Api/OrangeHRM.Playwright.Api.csproj" />
+  <Project Path="OrangeHRM.Playwright.Framework/OrangeHRM.Playwright.Framework.csproj" />
+  <Project Path="OrangeHRM.Playwright.Tests/OrangeHRM.Playwright.Tests.csproj" />
+</Solution>
