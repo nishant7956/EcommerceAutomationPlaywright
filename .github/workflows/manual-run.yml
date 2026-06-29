@@ -1,0 +1,67 @@
+name: Manual Test Run (On-Demand)
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_filter:
+        description: 'Test Filter (e.g., TestCategory=Smoke, or Name=Can_Create_New_Product)'
+        required: false
+        default: ''
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Get the Web App Code
+    - name: Checkout Web App Code
+      uses: actions/checkout@v4
+      with:
+        repository: nishant7956/EcommerceWebApp
+        path: 'webapp'
+
+    # 2. Build & Run the Web App
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Build and Start Web App
+      run: |
+        dotnet build
+        dotnet run --no-build &
+        timeout 30 bash -c 'until curl -s http://localhost:5130/ > /dev/null; do sleep 1; done'
+      working-directory: ./webapp
+
+    # 3. Get the Playwright Tests Code
+    - name: Checkout Playwright Tests Code
+      uses: actions/checkout@v4
+      with:
+        path: 'tests'
+
+    # 4. Install Playwright and Run
+    - name: Build Playwright Tests
+      run: dotnet build ECommerce.Playwright.slnx
+      working-directory: ./tests
+
+    - name: Install Playwright Browsers
+      run: pwsh tests/ECommerce.Playwright.Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
+    - name: Run Playwright Tests (Filtered)
+      run: |
+        if [ -z "${{ github.event.inputs.test_filter }}" ]; then
+          dotnet test ECommerce.Playwright.slnx --logger:"trx;LogFileName=test_results.trx"
+        else
+          dotnet test ECommerce.Playwright.slnx --filter "${{ github.event.inputs.test_filter }}" --logger:"trx;LogFileName=test_results.trx"
+        fi
+      working-directory: ./tests
+      env:
+        DOTNET_ENVIRONMENT: CI
+
+    # 5. Upload Results
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: ./tests/TestResults/
