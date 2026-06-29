@@ -28,4 +28,10 @@
     <ProjectReference Include="..\ECommerce.Playwright.Framework\ECommerce.Playwright.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
