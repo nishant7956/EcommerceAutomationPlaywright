@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Auth.AdminLoginTests.Admin_Login_Fails_With_Invalid_Username
+[TEARDOWN] Test finished with status: Passed

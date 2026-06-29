@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Products.ProductUiTests.Can_Create_New_Product_And_Verify_In_Table
+[TEARDOWN] Test finished with status: Passed

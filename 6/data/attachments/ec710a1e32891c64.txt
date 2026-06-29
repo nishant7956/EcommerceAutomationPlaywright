@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Auth.AdminLoginTests.Admin_Login_Page_Renders_Correctly
+[TEARDOWN] Test finished with status: Passed

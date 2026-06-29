@@ -1,0 +1,3 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Products.DataDrivenTests.Verify_Product_Data_Can_Be_Loaded(ECommerce.Playwright.Tests.UI.Products.ProductData)
+Testing product: Test Product 2, Price: 99.99
+[TEARDOWN] Test finished with status: Passed

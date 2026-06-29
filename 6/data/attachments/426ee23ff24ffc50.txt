@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Cart.CartTests.Added_Product_Appears_In_Cart
+[TEARDOWN] Test finished with status: Passed

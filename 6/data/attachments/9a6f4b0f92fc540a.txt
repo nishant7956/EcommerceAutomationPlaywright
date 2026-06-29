@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Storefront.StorefrontTests.Cart_Icon_Click_Navigates_To_Cart
+[TEARDOWN] Test finished with status: Passed

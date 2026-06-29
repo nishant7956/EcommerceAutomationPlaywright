@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Storefront.StorefrontTests.Storefront_Footer_Has_Four_Social_Links
+[TEARDOWN] Test finished with status: Passed

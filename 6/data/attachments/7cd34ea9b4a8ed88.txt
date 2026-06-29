@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Cart.CartTests.Empty_Cart_Shows_Empty_State_Message
+[TEARDOWN] Test finished with status: Passed

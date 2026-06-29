@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Storefront.StorefrontTests.Admin_Icon_Click_Redirects_To_Login
+[TEARDOWN] Test finished with status: Passed

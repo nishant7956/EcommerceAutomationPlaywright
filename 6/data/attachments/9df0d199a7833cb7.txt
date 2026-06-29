@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Cart.CartTests.Cart_Shows_Checkout_Button_When_Items_Present
+[TEARDOWN] Test finished with status: Passed

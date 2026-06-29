@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Cart.CartTests.Adding_Product_Updates_Cart_Badge
+[TEARDOWN] Test finished with status: Passed

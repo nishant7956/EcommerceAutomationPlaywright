@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Storefront.StorefrontTests.Storefront_Displays_Four_Category_Cards
+[TEARDOWN] Test finished with status: Passed

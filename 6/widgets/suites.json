@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"e3523e9cfb1c913b7622c5167386d29f","name":"ECommerce.Playwright.Tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":20,"unknown":0,"total":20}},{"uid":"822e96f94ecc472440e3276182c2b07b","name":"ECommerce.Playwright.Api","statistic":{"failed":0,"broken":0,"skipped":0,"passed":13,"unknown":0,"total":13}}]}

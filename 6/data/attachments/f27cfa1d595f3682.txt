@@ -1,0 +1,2 @@
+[SETUP] Started test: ECommerce.Playwright.Tests.UI.Storefront.StorefrontTests.Storefront_Hero_Displays_Correct_Title
+[TEARDOWN] Test finished with status: Passed
