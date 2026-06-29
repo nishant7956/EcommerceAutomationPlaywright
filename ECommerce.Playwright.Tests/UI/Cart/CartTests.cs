@@ -116,7 +116,18 @@ public class CartTests : BaseUiTest
     [Description("Continue Shopping link in cart should navigate back to the homepage storefront")]
     public async Task Continue_Shopping_Navigates_Back_To_Storefront()
     {
-        // Arrange
+        // Arrange: Create and add a product so cart is not empty
+        var productsPage = new ProductsPage(Page, Settings);
+        string productName = $"Cont Shop {Guid.NewGuid().ToString()[..6]}";
+        await productsPage.NavigateAsync();
+        await productsPage.ClickCreateProductAsync();
+        await productsPage.FillProductDetailsAsync(productName, "Continue shop test", "24.99", "10");
+        await productsPage.SubmitProductAsync();
+
+        var storefront = new StorefrontPage(Page, Settings);
+        await storefront.NavigateAsync();
+        await storefront.AddProductToCartByNameAsync(productName);
+
         var cartPage = new CartPage(Page, Settings);
         await cartPage.NavigateAsync();
 
