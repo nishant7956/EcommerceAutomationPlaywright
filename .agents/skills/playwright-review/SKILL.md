@@ -1,7 +1,7 @@
 ---
 name: playwright-review
 description: >
-  Pre-commit code review for the OrangeHRM Playwright framework at C:\WebTestPlaywright.
+  Pre-commit code review for the ECommerce Playwright framework at C:\WebTestPlaywright.
   Use this skill whenever the user asks to "review", "check before commit",
   "pre-commit review", or "review my changes" in this project.
 ---
@@ -18,9 +18,9 @@ mentally if any rule is violated — always explain what needs fixing and why.
 ## Review Checklist
 
 ### 1. Solution Structure
-- All framework code lives under `OrangeHRM.Playwright.Framework/`
-- All UI tests live under `OrangeHRM.Playwright.Tests/`
-- All API tests live under `OrangeHRM.Playwright.Api/`
+- All framework code lives under `ECommerce.Playwright.Framework/`
+- All UI tests live under `ECommerce.Playwright.Tests/`
+- All API tests live under `ECommerce.Playwright.Api/`
 - No test code (NUnit attributes, test methods) exists inside the Framework project
 - No browser/page dependencies exist inside the Api project unless using `IAPIRequestContext`
 

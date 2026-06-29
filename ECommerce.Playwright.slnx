@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ECommerce.Playwright.Api/ECommerce.Playwright.Api.csproj" />
+  <Project Path="ECommerce.Playwright.Framework/ECommerce.Playwright.Framework.csproj" />
+  <Project Path="ECommerce.Playwright.Tests/ECommerce.Playwright.Tests.csproj" />
+</Solution>
